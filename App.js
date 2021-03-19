@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 18,
     fontWeight: '400',
+    fontFamily: 'Montserrat-Regular',
   },
   highlight: {
     fontWeight: '700',
