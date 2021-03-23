@@ -8,7 +8,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import {Search} from './components';
+import {Search} from './src/components';
 
 const App = () => (
   <>
