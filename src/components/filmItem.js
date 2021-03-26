@@ -1,11 +1,15 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
+import {getImageFromApi} from '../api/TMDBApi';
 
 const filmItem = ({film}) => {
-  const {title, vote_average, release_date, overview} = film.item;
+  const {title, vote_average, release_date, overview, poster_path} = film.item;
   return (
     <View style={styles.main_container}>
-      <Image style={styles.image} source={{uri: 'image'}} />
+      <Image
+        style={styles.image}
+        source={{uri: getImageFromApi(poster_path)}}
+      />
       <View style={styles.content_container}>
         <View style={styles.header_container}>
           <Text style={styles.title_text}>{title}</Text>
@@ -46,14 +50,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   title_text: {
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat-Bold',
     fontSize: 20,
     flex: 1,
     flexWrap: 'wrap',
     paddingRight: 5,
   },
   vote_text: {
-    fontWeight: 'bold',
+    fontFamily: 'Montserrat-SemiBold',
     fontSize: 26,
     color: '#666666',
   },
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
     flex: 7,
   },
   description_text: {
-    fontStyle: 'italic',
+    fontFamily: 'Montserrat-Regular',
     color: '#666666',
   },
   date_container: {

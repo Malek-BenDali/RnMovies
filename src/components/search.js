@@ -16,16 +16,42 @@ import {getFilmsFromApiWithSearchedText} from '../api/TMDBApi';
 const search = () => {
   const [films, setFilms] = useState([]);
   const [searchedText, setSearchedText] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [pages, setPages] = useState({
+    currentPage: 0,
+    all: 0,
+  });
 
-  const loadfilms = async () => {
+  const getFilms = () => {
     try {
-      if (searchedText) {
-        const data = await getFilmsFromApiWithSearchedText(searchedText);
-        setFilms(data.results);
-      } else console.log('empty input');
+      return getFilmsFromApiWithSearchedText(
+        searchedText,
+        pages.currentPage + 1,
+      );
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const loadMore = async () => {
+    if (pages.currentPage < pages.all) {
+      const data = await getFilms();
+      setPages({...pages, currentPage: data.page});
+      films.push(...data.results);
+    } else return;
+  };
+
+  const searchNewFilm = async () => {
+    setLoading(true);
+    setPages({currentPage: 0, all: 0});
+    setFilms([]);
+    if (searchedText) {
+      const data = await getFilms();
+      setFilms([...data.results]);
+      setPages({currentPage: data.page, all: data.total_pages});
+    } else console.log('empty input');
+
+    setLoading(false);
   };
 
   return (
@@ -34,24 +60,25 @@ const search = () => {
         style={styles.inputStyle}
         placeholder="Film Title"
         onChangeText={text => setSearchedText(text)}
+        onSubmitEditing={() => searchNewFilm()}
       />
       <TouchableOpacity
         style={styles.searchButton}
         title="Search"
-        onPress={() => loadfilms()}>
+        onPress={() => searchNewFilm()}>
         <Text style={styles.searchButtonText}>Search</Text>
       </TouchableOpacity>
-      <FlatList
-        data={films}
-        keyExtractor={item => item?.id.toString()}
-        renderItem={item =>
-          item ? (
-            <FilmItem film={item} />
-          ) : (
-            <ActivityIndicator size="large" color="#0d98ba" />
-          )
-        }
-      />
+      {loading ? (
+        <ActivityIndicator size="large" color="#0d98ba" />
+      ) : (
+        <FlatList
+          data={films}
+          keyExtractor={item => item?.id.toString()}
+          onEndReachedThreshold={0.1}
+          onEndReached={() => loadMore()}
+          renderItem={item => <FilmItem film={item} />}
+        />
+      )}
     </View>
   );
 };
@@ -64,6 +91,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingLeft: 10,
     borderRadius: 50,
+    fontFamily: 'Montserrat-Regular',
   },
   searchButton: {
     alignSelf: 'center',
@@ -77,6 +105,7 @@ const styles = StyleSheet.create({
   },
   container: {
     padding: 10,
+    paddingBottom: 150,
   },
   searchButtonText: {
     fontFamily: 'Montserrat-Bold',
