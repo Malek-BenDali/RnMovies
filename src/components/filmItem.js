@@ -1,15 +1,27 @@
-import React from 'react';
+import React, {createRef} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {getImageFromApi} from '../api/TMDBApi';
+import LinearGradient from 'react-native-linear-gradient';
+import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 
-const filmItem = ({film}) => {
+const filmItem = ({film, loading}) => {
   const {title, vote_average, release_date, overview, poster_path} = film.item;
+
+  console.log('here : ' + loading);
   return (
     <View style={styles.main_container}>
-      <Image
-        style={styles.image}
-        source={{uri: getImageFromApi(poster_path)}}
-      />
+      {loading ? (
+        <ShimmerPlaceHolder
+          style={styles.image}
+          LinearGradient={LinearGradient}
+        />
+      ) : (
+        <Image
+          style={styles.image}
+          source={{uri: getImageFromApi(poster_path)}}
+        />
+      )}
+
       <View style={styles.content_container}>
         <View style={styles.header_container}>
           <Text style={styles.title_text}>{title}</Text>

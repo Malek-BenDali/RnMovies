@@ -68,17 +68,14 @@ const search = () => {
         onPress={() => searchNewFilm()}>
         <Text style={styles.searchButtonText}>Search</Text>
       </TouchableOpacity>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0d98ba" />
-      ) : (
-        <FlatList
-          data={films}
-          keyExtractor={item => item?.id.toString()}
-          onEndReachedThreshold={0.1}
-          onEndReached={() => loadMore()}
-          renderItem={item => <FilmItem film={item} />}
-        />
-      )}
+
+      <FlatList
+        data={films}
+        keyExtractor={item => item?.id.toString()}
+        onEndReachedThreshold={0.1}
+        onEndReached={() => loadMore()}
+        renderItem={item => <FilmItem film={item} loading={loading} />}
+      />
     </View>
   );
 };
