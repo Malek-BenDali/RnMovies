@@ -1,23 +1,23 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 
-const filmItem = () => {
+const filmItem = ({film}) => {
+  const {title, vote_average, release_date, overview} = film.item;
   return (
     <View style={styles.main_container}>
       <Image style={styles.image} source={{uri: 'image'}} />
       <View style={styles.content_container}>
         <View style={styles.header_container}>
-          <Text style={styles.title_text}>Titre du film</Text>
-          <Text style={styles.vote_text}>Vote</Text>
+          <Text style={styles.title_text}>{title}</Text>
+          <Text style={styles.vote_text}> {vote_average} </Text>
         </View>
         <View style={styles.description_container}>
           <Text style={styles.description_text} numberOfLines={6}>
-            Description
+            {overview}
           </Text>
-          {/* La propriété numberOfLines permet de couper un texte si celui-ci est trop long, il suffit de définir un nombre maximum de ligne */}
         </View>
         <View style={styles.date_container}>
-          <Text style={styles.date_text}>Sorti le 00/00/0000</Text>
+          <Text style={styles.date_text}>Sorti le {release_date} </Text>
         </View>
       </View>
     </View>

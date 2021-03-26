@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   TextInput,
@@ -7,24 +7,50 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import {filmsData} from '../helpers';
 import FilmItem from './filmItem';
+import {getFilmsFromApiWithSearchedText} from '../api/TMDBApi';
 
 const search = () => {
+  const [films, setFilms] = useState([]);
+  const [searchedText, setSearchedText] = useState('');
+
+  const loadfilms = async () => {
+    try {
+      if (searchedText) {
+        const data = await getFilmsFromApiWithSearchedText(searchedText);
+        setFilms(data.results);
+      } else console.log('empty input');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <TextInput style={styles.inputStyle} placeholder="Film Title" />
+      <TextInput
+        style={styles.inputStyle}
+        placeholder="Film Title"
+        onChangeText={text => setSearchedText(text)}
+      />
       <TouchableOpacity
         style={styles.searchButton}
         title="Search"
-        onPress={() => {}}>
+        onPress={() => loadfilms()}>
         <Text style={styles.searchButtonText}>Search</Text>
       </TouchableOpacity>
       <FlatList
-        data={filmsData}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({item}) => <FilmItem />}
+        data={films}
+        keyExtractor={item => item?.id.toString()}
+        renderItem={item =>
+          item ? (
+            <FilmItem film={item} />
+          ) : (
+            <ActivityIndicator size="large" color="#0d98ba" />
+          )
+        }
       />
     </View>
   );
@@ -37,6 +63,7 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     borderWidth: 1,
     paddingLeft: 10,
+    borderRadius: 50,
   },
   searchButton: {
     alignSelf: 'center',
