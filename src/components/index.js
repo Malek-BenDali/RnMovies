@@ -1,2 +1,3 @@
 import Search from './search';
-export {Search};
+import FilmDetail from './filmDetail';
+export {Search, FilmDetail};

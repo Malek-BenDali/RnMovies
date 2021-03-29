@@ -8,11 +8,12 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import {Search} from './src/components';
+import Navigation from './src/navigation/navigation';
 
 const App = () => (
   <>
-    <Search />
+    <StatusBar backgroundColor="#0d98ba" />
+    <Navigation />
   </>
 );
 

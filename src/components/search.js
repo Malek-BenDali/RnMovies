@@ -12,6 +12,7 @@ import {
 import {filmsData} from '../helpers';
 import FilmItem from './filmItem';
 import {getFilmsFromApiWithSearchedText} from '../api/TMDBApi';
+import {useNavigation} from '@react-navigation/native';
 
 const search = () => {
   const [films, setFilms] = useState([]);
@@ -21,6 +22,7 @@ const search = () => {
     currentPage: 0,
     all: 0,
   });
+  const navigation = useNavigation();
 
   const getFilms = () => {
     try {
@@ -54,6 +56,9 @@ const search = () => {
     setLoading(false);
   };
 
+  const displayDetailFilm = idFilm =>
+    navigation.navigate('FilmDetail', {idFilm});
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -74,7 +79,9 @@ const search = () => {
         keyExtractor={item => item?.id.toString()}
         onEndReachedThreshold={0.1}
         onEndReached={() => loadMore()}
-        renderItem={item => <FilmItem film={item} loading={loading} />}
+        renderItem={item => (
+          <FilmItem film={item} detailFilm={displayDetailFilm} />
+        )}
       />
     </View>
   );
