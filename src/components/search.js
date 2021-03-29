@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {filmsData} from '../helpers';
 import FilmItem from './filmItem';
+import ShimmerFilm from './ShimmerFilm';
 import {getFilmsFromApiWithSearchedText} from '../api/TMDBApi';
 import {useNavigation} from '@react-navigation/native';
 
@@ -70,19 +71,24 @@ const search = () => {
       <TouchableOpacity
         style={styles.searchButton}
         title="Search"
-        onPress={() => searchNewFilm()}>
+        onPress={() => searchNewFilm()}
+        disabled={loading}>
         <Text style={styles.searchButtonText}>Search</Text>
       </TouchableOpacity>
 
-      <FlatList
-        data={films}
-        keyExtractor={item => item?.id.toString()}
-        onEndReachedThreshold={0.1}
-        onEndReached={() => loadMore()}
-        renderItem={item => (
-          <FilmItem film={item} detailFilm={displayDetailFilm} />
-        )}
-      />
+      {loading ? (
+        <ShimmerFilm />
+      ) : (
+        <FlatList
+          data={films}
+          keyExtractor={item => item?.id.toString()}
+          onEndReachedThreshold={0.1}
+          onEndReached={() => loadMore()}
+          renderItem={item => (
+            <FilmItem film={item} detailFilm={displayDetailFilm} />
+          )}
+        />
+      )}
     </View>
   );
 };

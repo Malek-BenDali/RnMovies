@@ -6,52 +6,8 @@ import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 
 const filmItem = ({film, detailFilm}) => {
   const {title, vote_average, release_date, overview, poster_path} = film.item;
-  const [loading, setloading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setloading(false);
-    }, 2000);
-    return clearTimeout();
-  }, []);
 
-  const Shimmer = () => (
-    <View style={styles.main_container}>
-      <ShimmerPlaceHolder
-        LinearGradient={LinearGradient}
-        style={styles.image}
-      />
-
-      <View style={styles.content_container}>
-        <View style={styles.header_container}>
-          <ShimmerPlaceHolder LinearGradient={LinearGradient} />
-          <ShimmerPlaceHolder
-            LinearGradient={LinearGradient}
-            style={styles.title_text}
-          />
-          <ShimmerPlaceHolder
-            LinearGradient={LinearGradient}
-            style={styles.title_text}
-          />
-        </View>
-        <View style={styles.description_container}>
-          <ShimmerPlaceHolder
-            LinearGradient={LinearGradient}
-            style={styles.description_text}
-          />
-        </View>
-        <View style={styles.date_container}>
-          <ShimmerPlaceHolder
-            LinearGradient={LinearGradient}
-            style={styles.date_text}
-          />
-        </View>
-      </View>
-    </View>
-  );
-
-  return loading ? (
-    <Shimmer />
-  ) : (
+  return (
     <TouchableOpacity
       style={styles.main_container}
       onPress={() => detailFilm(film.item.id)}>
