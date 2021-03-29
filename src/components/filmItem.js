@@ -1,8 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {getImageFromApi} from '../api/TMDBApi';
-import LinearGradient from 'react-native-linear-gradient';
-import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 
 const filmItem = ({film, detailFilm}) => {
   const {title, vote_average, release_date, overview, poster_path} = film.item;

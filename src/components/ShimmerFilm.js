@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Dimensions} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
 
@@ -41,33 +41,49 @@ const ShimmerFilm = () => {
 };
 
 export default ShimmerFilm;
-const windowWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
-  inputStyle: {
-    marginHorizontal: 5,
-    height: 50,
-    borderColor: '#000',
-    borderWidth: 1,
-    paddingLeft: 10,
-    borderRadius: 50,
-    fontFamily: 'Montserrat-Regular',
+  main_container: {
+    height: 190,
+    flexDirection: 'row',
   },
-  searchButton: {
-    alignSelf: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginVertical: 10,
-    height: 50,
-    width: windowWidth * 0.6,
-    borderRadius: 99,
-    backgroundColor: '#0d98ba',
+  image: {
+    width: 120,
+    height: 180,
+    margin: 5,
+    backgroundColor: 'gray',
   },
-  container: {
-    padding: 10,
-    paddingBottom: 150,
+  content_container: {
+    flex: 1,
+    margin: 5,
   },
-  searchButtonText: {
+  header_container: {
+    flex: 3,
+    flexDirection: 'row',
+  },
+  title_text: {
     fontFamily: 'Montserrat-Bold',
-    color: '#fff',
+    fontSize: 20,
+    flex: 1,
+    flexWrap: 'wrap',
+    paddingRight: 5,
+  },
+  vote_text: {
+    fontFamily: 'Montserrat-SemiBold',
+    fontSize: 26,
+    color: '#666666',
+  },
+  description_container: {
+    flex: 7,
+  },
+  description_text: {
+    fontFamily: 'Montserrat-Regular',
+    color: '#666666',
+  },
+  date_container: {
+    flex: 1,
+  },
+  date_text: {
+    textAlign: 'right',
+    fontSize: 14,
   },
 });

@@ -14,4 +14,17 @@ const getFilmsFromApiWithSearchedText = async (text, page) => {
 
 const getImageFromApi = name => `https://image.tmdb.org/t/p/w300${name}`;
 
-export {getFilmsFromApiWithSearchedText, getImageFromApi};
+const getFilmDetailsFromApi = async id => {
+  const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${ApiKey}&language=fr`;
+  try {
+    return await (await axios.get(url)).data;
+  } catch (err) {
+    return err;
+  }
+};
+
+export {
+  getFilmsFromApiWithSearchedText,
+  getImageFromApi,
+  getFilmDetailsFromApi,
+};

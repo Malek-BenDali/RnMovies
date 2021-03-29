@@ -14,6 +14,7 @@ import FilmItem from './filmItem';
 import ShimmerFilm from './ShimmerFilm';
 import {getFilmsFromApiWithSearchedText} from '../api/TMDBApi';
 import {useNavigation} from '@react-navigation/native';
+import * as Animatable from 'react-native-animatable';
 
 const search = () => {
   const [films, setFilms] = useState([]);
@@ -77,7 +78,13 @@ const search = () => {
       </TouchableOpacity>
 
       {loading ? (
-        <ShimmerFilm />
+        <>
+          <ShimmerFilm />
+          <ShimmerFilm />
+          <ShimmerFilm />
+          <ShimmerFilm />
+          <ShimmerFilm />
+        </>
       ) : (
         <FlatList
           data={films}
