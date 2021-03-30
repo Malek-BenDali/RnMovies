@@ -1,2 +1,1 @@
-export const LikedFilm = 'LIKEDPROFILE';
-export const Update = 'UPDATE';
+export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE';
