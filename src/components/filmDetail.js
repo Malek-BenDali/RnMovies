@@ -31,25 +31,25 @@ const filmDetail = () => {
         <ShimmerPlaceHolder
           LinearGradient={LinearGradient}
           style={[styles.image, {width: '100%'}]}
-          visible={!loading}>
-          <Image
-            style={styles.image}
-            source={{uri: getImageFromApi(film.backdrop_path)}}
-          />
-        </ShimmerPlaceHolder>
+          visible={!loading}
+        />
+        <Image
+          style={styles.image}
+          source={{uri: getImageFromApi(film.backdrop_path)}}
+        />
 
         <ShimmerPlaceHolder
           LinearGradient={LinearGradient}
           style={[styles.title_text, {alignSelf: 'center'}]}
-          visible={!loading}>
-          <Text style={styles.title_text}>{film.title}</Text>
-        </ShimmerPlaceHolder>
+          visible={!loading}
+        />
+        <Text style={styles.title_text}>{film.title}</Text>
         <ShimmerPlaceHolder
           LinearGradient={LinearGradient}
           style={{height: 200, width: '90%', alignSelf: 'center'}}
-          visible={!loading}>
-          <Text style={styles.default_text}>{film.overview}</Text>
-        </ShimmerPlaceHolder>
+          visible={!loading}
+        />
+        <Text style={styles.default_text}>{film.overview}</Text>
 
         <ShimmerPlaceHolder
           LinearGradient={LinearGradient}
