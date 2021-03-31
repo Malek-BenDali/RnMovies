@@ -1,21 +1,30 @@
 import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import numeral from 'numeral';
-import {ScrollView, StyleSheet, Text, View, Image} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {getFilmDetailsFromApi, getImageFromApi} from '../api/TMDBApi';
 import {connect} from 'react-redux';
+import {LikeFilm} from '../store/Actions/LikeFilm';
+import AntDesignIcon from 'react-native-vector-icons/Entypo';
 
-const filmDetail = ({favoriteFilms}) => {
-  const [loading, setLoading] = useState(true);
+const filmDetail = ({favoriteFilms, LikeFilm}) => {
   const [film, setFilm] = useState(undefined);
 
   const route = useRoute();
   const {idFilm} = route.params;
 
   useEffect(async () => {
-    setFilm(await getFilmDetailsFromApi(idFilm), setLoading(false));
-  }, []);
+    setFilm(await getFilmDetailsFromApi(idFilm));
+  }, [favoriteFilms]);
+  console.log(favoriteFilms);
 
   const displayFilm = () =>
     film && (
@@ -25,6 +34,9 @@ const filmDetail = ({favoriteFilms}) => {
           source={{uri: getImageFromApi(film.backdrop_path)}}
         />
         <Text style={styles.title_text}>{film.title}</Text>
+        <TouchableOpacity onPress={() => LikeFilm(film)}>
+          <AntDesignIcon name="heart" size={30} />
+        </TouchableOpacity>
         <Text style={styles.default_text}>{film.overview}</Text>
 
         <Text style={styles.hightlightText}>
@@ -67,7 +79,8 @@ const filmDetail = ({favoriteFilms}) => {
 const mapStateToProps = state => ({
   favoriteFilms: state.favoriteFilms,
 });
-export default connect(mapStateToProps)(filmDetail);
+
+export default connect(mapStateToProps, {LikeFilm})(filmDetail);
 
 const styles = StyleSheet.create({
   container: {

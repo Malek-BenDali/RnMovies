@@ -9,7 +9,7 @@ const ToggleFavorite = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TOGGLE_FAVORITE:
       const favoriteFilmIndex = state.favoriteFilms.findIndex(
-        item => item.id === action.value.id,
+        item => item.id === action.payload.id,
       );
       if (favoriteFilmIndex !== -1)
         nextState = {
@@ -21,12 +21,10 @@ const ToggleFavorite = (state = initialState, action) => {
       else
         nextState = {
           ...state,
-          favoriteFilms: [...state.favoriteFilms, action.value],
+          favoriteFilms: [...state.favoriteFilms, action.payload],
         };
-      console.log('nextState : ' + nextState);
       return nextState || state;
     default:
-      console.log('state ' + state);
       return state;
   }
 };
