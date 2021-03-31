@@ -1,20 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import numeral from 'numeral';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Dimensions,
-} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, Image} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {getFilmDetailsFromApi, getImageFromApi} from '../api/TMDBApi';
-import LinearGradient from 'react-native-linear-gradient';
-import ShimmerPlaceHolder from 'react-native-shimmer-placeholder';
+import {connect} from 'react-redux';
 
-const filmDetail = () => {
+const filmDetail = ({favoriteFilms}) => {
   const [loading, setLoading] = useState(true);
   const [film, setFilm] = useState(undefined);
 
@@ -28,99 +20,54 @@ const filmDetail = () => {
   const displayFilm = () =>
     film && (
       <ScrollView style={styles.scrollview_container}>
-        <ShimmerPlaceHolder
-          LinearGradient={LinearGradient}
-          style={[styles.image, {width: '100%'}]}
-          visible={!loading}
-        />
         <Image
           style={styles.image}
           source={{uri: getImageFromApi(film.backdrop_path)}}
         />
-
-        <ShimmerPlaceHolder
-          LinearGradient={LinearGradient}
-          style={[styles.title_text, {alignSelf: 'center'}]}
-          visible={!loading}
-        />
         <Text style={styles.title_text}>{film.title}</Text>
-        <ShimmerPlaceHolder
-          LinearGradient={LinearGradient}
-          style={{height: 200, width: '90%', alignSelf: 'center'}}
-          visible={!loading}
-        />
         <Text style={styles.default_text}>{film.overview}</Text>
 
-        <ShimmerPlaceHolder
-          LinearGradient={LinearGradient}
-          style={styles.textShimmer}
-          visible={!loading}>
-          <Text style={styles.hightlightText}>
-            Sorti le {moment(new Date(film.release_date)).format('DD/MM/YYYY')}
+        <Text style={styles.hightlightText}>
+          Sorti le {moment(new Date(film.release_date)).format('DD/MM/YYYY')}
+        </Text>
+
+        <View style={styles.row}>
+          <Text style={styles.hightlightText}>Note : </Text>
+          <Text style={styles.default_text}>{film.vote_average} / 10 </Text>
+        </View>
+
+        <View style={styles.row}>
+          <Text style={styles.hightlightText}>Nombre de votes : </Text>
+          <Text style={styles.default_text}>{film.vote_count}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.hightlightText}>Budget : </Text>
+          <Text style={styles.default_text}>
+            {numeral(film.budget).format('0,0[.]00 $')}
           </Text>
-        </ShimmerPlaceHolder>
+        </View>
 
-        <ShimmerPlaceHolder
-          LinearGradient={LinearGradient}
-          style={styles.textShimmer}
-          visible={!loading}>
-          <View style={styles.row}>
-            <Text style={styles.hightlightText}>Note : </Text>
-            <Text style={styles.default_text}>{film.vote_average} / 10 </Text>
-          </View>
-        </ShimmerPlaceHolder>
-
-        <ShimmerPlaceHolder
-          LinearGradient={LinearGradient}
-          style={styles.textShimmer}
-          visible={!loading}>
-          <View style={styles.row}>
-            <Text style={styles.hightlightText}>Nombre de votes : </Text>
-            <Text style={styles.default_text}>{film.vote_count}</Text>
-          </View>
-        </ShimmerPlaceHolder>
-        <ShimmerPlaceHolder
-          LinearGradient={LinearGradient}
-          style={styles.textShimmer}
-          visible={!loading}>
-          <View style={styles.row}>
-            <Text style={styles.hightlightText}>Budget : </Text>
-            <Text style={styles.default_text}>
-              {numeral(film.budget).format('0,0[.]00 $')}
-            </Text>
-          </View>
-        </ShimmerPlaceHolder>
-        <ShimmerPlaceHolder
-          LinearGradient={LinearGradient}
-          style={styles.textShimmer}
-          visible={!loading}>
-          <View style={styles.row}>
-            <Text style={styles.hightlightText}>Genre(s) : </Text>
-            <Text style={styles.default_text}>
-              {film.genres.map(genre => genre.name).join(' / ')}
-            </Text>
-          </View>
-        </ShimmerPlaceHolder>
-        <ShimmerPlaceHolder
-          LinearGradient={LinearGradient}
-          style={styles.textShimmer}
-          visible={!loading}>
-          <View style={styles.row}>
-            <Text style={styles.hightlightText}>Companie(s) : </Text>
-            <Text style={styles.default_text}>
-              {' '}
-              {film.production_companies
-                .map(company => company.name)
-                .join(' / ')}
-            </Text>
-          </View>
-        </ShimmerPlaceHolder>
+        <View style={styles.row}>
+          <Text style={styles.hightlightText}>Genre(s) : </Text>
+          <Text style={styles.default_text}>
+            {film.genres.map(genre => genre.name).join(' / ')}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.hightlightText}>Companie(s) : </Text>
+          <Text style={styles.default_text}>
+            {film.production_companies.map(company => company.name).join(' / ')}
+          </Text>
+        </View>
       </ScrollView>
     );
   return <View style={styles.container}>{displayFilm()}</View>;
 };
 
-export default filmDetail;
+const mapStateToProps = state => ({
+  favoriteFilms: state.favoriteFilms,
+});
+export default connect(mapStateToProps)(filmDetail);
 
 const styles = StyleSheet.create({
   container: {

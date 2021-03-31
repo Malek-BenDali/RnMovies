@@ -1,17 +1,10 @@
 import * as actionTypes from '../Actions/Types';
 
-const updateObject = (oldObject, updatedProperties) => {
-  return {
-    ...oldObject,
-    ...updatedProperties,
-  };
-};
-
 const initialState = {
   favoriteFilms: [],
 };
 
-const toggleFavorite = (state = initialState, action) => {
+const ToggleFavorite = (state = initialState, action) => {
   let nextState;
   switch (action.type) {
     case actionTypes.TOGGLE_FAVORITE:
@@ -19,19 +12,23 @@ const toggleFavorite = (state = initialState, action) => {
         item => item.id === action.value.id,
       );
       if (favoriteFilmIndex !== -1)
-        updateObject(state, {
+        nextState = {
+          ...state,
           favoriteFilms: state.favoriteFilms.filter(
             (item, index) => index !== favoriteFilmIndex,
           ),
-        });
+        };
       else
-        updateObject(state, {
+        nextState = {
+          ...state,
           favoriteFilms: [...state.favoriteFilms, action.value],
-        });
-      return state;
+        };
+      console.log('nextState : ' + nextState);
+      return nextState || state;
     default:
-      nextState;
+      console.log('state ' + state);
+      return state;
   }
 };
 
-export default toggleFavorite;
+export default ToggleFavorite;
