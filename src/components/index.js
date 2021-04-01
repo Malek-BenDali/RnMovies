@@ -1,3 +1,4 @@
-import Search from './search';
+import Search from './Search';
 import FilmDetail from './filmDetail';
-export {Search, FilmDetail};
+import Favorite from './Favorite';
+export {Search, FilmDetail, Favorite};

@@ -15,7 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 import {connect} from 'react-redux';
 
-const search = ({favoriteFilms}) => {
+const Search = ({favoriteFilms}) => {
   const [films, setFilms] = useState([]);
   const [searchedText, setSearchedText] = useState('');
   const [loading, setLoading] = useState(false);
@@ -143,4 +143,4 @@ const mapStateToProps = state => ({
   favoriteFilms: state.favoriteFilms,
 });
 
-export default connect(mapStateToProps)(search);
+export default connect(mapStateToProps)(Search);
