@@ -13,7 +13,7 @@ import {useRoute} from '@react-navigation/native';
 import {getFilmDetailsFromApi, getImageFromApi} from '../api/TMDBApi';
 import {connect} from 'react-redux';
 import {LikeFilm} from '../store/Actions/LikeFilm';
-import AntDesignIcon from 'react-native-vector-icons/Entypo';
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 
 const filmDetail = ({favoriteFilms, LikeFilm}) => {
   const [film, setFilm] = useState(undefined);
@@ -24,7 +24,12 @@ const filmDetail = ({favoriteFilms, LikeFilm}) => {
   useEffect(async () => {
     setFilm(await getFilmDetailsFromApi(idFilm));
   }, [favoriteFilms]);
-  console.log(favoriteFilms);
+
+  const likedFilm = () => {
+    if (favoriteFilms?.findIndex(item => item.id === film.id) !== -1)
+      return true;
+    return false;
+  };
 
   const displayFilm = () =>
     film && (
@@ -34,8 +39,10 @@ const filmDetail = ({favoriteFilms, LikeFilm}) => {
           source={{uri: getImageFromApi(film.backdrop_path)}}
         />
         <Text style={styles.title_text}>{film.title}</Text>
-        <TouchableOpacity onPress={() => LikeFilm(film)}>
-          <AntDesignIcon name="heart" size={30} />
+        <TouchableOpacity
+          style={styles.likeButton}
+          onPress={() => LikeFilm(film)}>
+          <AntDesignIcon name={likedFilm() ? 'heart' : 'hearto'} size={30} />
         </TouchableOpacity>
         <Text style={styles.default_text}>{film.overview}</Text>
 
@@ -131,5 +138,9 @@ const styles = StyleSheet.create({
     height: 20,
     width: '100%',
     marginTop: 5,
+  },
+  likeButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

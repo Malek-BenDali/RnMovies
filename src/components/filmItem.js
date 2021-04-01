@@ -2,8 +2,14 @@ import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import {getImageFromApi} from '../api/TMDBApi';
 
-const filmItem = ({film, detailFilm}) => {
+import AntDesignIcon from 'react-native-vector-icons/AntDesign';
+
+const filmItem = ({film, detailFilm, isFilmFavorite}) => {
   const {title, vote_average, release_date, overview, poster_path} = film.item;
+
+  const displayLike = () => {
+    if (isFilmFavorite) return <AntDesignIcon name="heart" size={30} />;
+  };
 
   return (
     <TouchableOpacity
@@ -16,6 +22,7 @@ const filmItem = ({film, detailFilm}) => {
 
       <View style={styles.content_container}>
         <View style={styles.header_container}>
+          {displayLike()}
           <Text style={styles.title_text}>{title}</Text>
           <Text style={styles.vote_text}> {vote_average} </Text>
         </View>

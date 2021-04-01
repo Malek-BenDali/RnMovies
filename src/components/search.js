@@ -7,16 +7,15 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
-  ActivityIndicator,
 } from 'react-native';
-import {filmsData} from '../helpers';
 import FilmItem from './filmItem';
 import ShimmerFilm from './ShimmerFilm';
 import {getFilmsFromApiWithSearchedText} from '../api/TMDBApi';
 import {useNavigation} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
+import {connect} from 'react-redux';
 
-const search = () => {
+const search = ({favoriteFilms}) => {
   const [films, setFilms] = useState([]);
   const [searchedText, setSearchedText] = useState('');
   const [loading, setLoading] = useState(false);
@@ -88,11 +87,22 @@ const search = () => {
       ) : (
         <FlatList
           data={films}
+          extraData={favoriteFilms}
           keyExtractor={item => item?.id.toString()}
-          onEndReachedThreshold={0.1}
+          onEndReachedThreshold={0.3}
           onEndReached={() => loadMore()}
           renderItem={item => (
-            <FilmItem film={item} detailFilm={displayDetailFilm} />
+            <FilmItem
+              film={item}
+              detailFilm={displayDetailFilm}
+              isFilmFavorite={
+                favoriteFilms.findIndex(film => {
+                  return film.id === item.item.id;
+                }) !== -1
+                  ? true
+                  : false
+              }
+            />
           )}
         />
       )}
@@ -129,4 +139,8 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
-export default search;
+const mapStateToProps = state => ({
+  favoriteFilms: state.favoriteFilms,
+});
+
+export default connect(mapStateToProps)(search);
