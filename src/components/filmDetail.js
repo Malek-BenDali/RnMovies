@@ -8,6 +8,8 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Share,
+  Platform,
 } from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {getFilmDetailsFromApi, getImageFromApi} from '../api/TMDBApi';
@@ -29,6 +31,24 @@ const filmDetail = ({favoriteFilms, LikeFilm}) => {
     if (favoriteFilms?.findIndex(item => item.id === film.id) !== -1)
       return true;
     return false;
+  };
+
+  const shareFilm = () =>
+    Share.share({
+      title: film.title,
+      message: film.overview,
+    });
+
+  const displayFloatingButton = () => {
+    if (film != undefined && Platform.OS === 'android') {
+      return (
+        <TouchableOpacity
+          style={styles.shareTouchableFloatingButton}
+          onPress={() => shareFilm()}>
+          <AntDesignIcon size={30} name="sharealt" color="#fff" />
+        </TouchableOpacity>
+      );
+    }
   };
 
   const displayFilm = () =>
@@ -80,7 +100,12 @@ const filmDetail = ({favoriteFilms, LikeFilm}) => {
         </View>
       </ScrollView>
     );
-  return <View style={styles.container}>{displayFilm()}</View>;
+  return (
+    <View style={styles.container}>
+      {displayFilm()}
+      {displayFloatingButton()}
+    </View>
+  );
 };
 
 const mapStateToProps = state => ({
@@ -140,6 +165,17 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   likeButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  shareTouchableFloatingButton: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    right: 30,
+    bottom: 30,
+    borderRadius: 30,
+    backgroundColor: '#e91e63',
     justifyContent: 'center',
     alignItems: 'center',
   },
