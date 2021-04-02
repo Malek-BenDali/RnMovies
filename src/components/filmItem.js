@@ -8,7 +8,7 @@ const filmItem = ({film, detailFilm, isFilmFavorite}) => {
   const {title, vote_average, release_date, overview, poster_path} = film.item;
 
   const displayLike = () => {
-    if (isFilmFavorite) return <AntDesignIcon name="heart" size={30} />;
+    if (isFilmFavorite) return <AntDesignIcon name="hearto" size={30} />;
   };
 
   return (
