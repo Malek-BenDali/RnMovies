@@ -1,13 +1,10 @@
-import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import React from 'react';
+import {TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {launchCamera} from 'react-native-image-picker';
+import {AvatarPicker} from '../store/Actions/AvatarPicker';
+import {connect} from 'react-redux';
 
-const Avatar = () => {
-  const avatarImage = require('../../assets/images/avatar.jpg');
-  const [avatarSource, setAvatarSource] = useState(
-    require('../../assets/images/avatar.jpg'),
-  );
-
+const Avatar = ({AvatarPicker, avatarImage}) => {
   const avatarClicked = () => {
     launchCamera({}, response => {
       if (response.didCancel) {
@@ -17,7 +14,7 @@ const Avatar = () => {
       } else {
         console.log('Photo : ' + response.uri);
         let requireSource = {uri: response.uri};
-        setAvatarSource(requireSource);
+        AvatarPicker(requireSource);
       }
     });
   };
@@ -26,17 +23,20 @@ const Avatar = () => {
     <TouchableOpacity
       style={styles.touchableOpacity}
       onPress={() => avatarClicked()}>
-      <Image style={styles.avatar} source={avatarSource} />
+      <Image style={styles.avatar} source={avatarImage} />
     </TouchableOpacity>
   );
 };
+const mapStateToProps = state => ({
+  avatarImage: state.avatarReducer.avatarImage,
+});
 
-export default Avatar;
+export default connect(mapStateToProps, {AvatarPicker})(Avatar);
 
 const styles = StyleSheet.create({
   touchableOpacity: {
     margin: 5,
-    width: 100, // Pensez bien à définir une largeur ici, sinon toute la largeur de l'écran sera cliquable
+    width: 100,
     height: 100,
     justifyContent: 'center',
     alignItems: 'center',

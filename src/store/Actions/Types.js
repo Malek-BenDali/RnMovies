@@ -1,1 +1,2 @@
 export const TOGGLE_FAVORITE = 'TOGGLE_FAVORITE';
+export const AVATAR_IMAGE = 'AVATAR_IMAGE';

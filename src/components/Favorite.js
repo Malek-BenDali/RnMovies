@@ -37,7 +37,7 @@ const Favorite = ({favoriteFilms}) => {
   );
 };
 const mapStateToProps = state => ({
-  favoriteFilms: state.favoriteFilms,
+  favoriteFilms: state.toggleFavorite.favoriteFilms,
 });
 
 export default connect(mapStateToProps)(Favorite);

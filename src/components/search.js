@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
 });
 const mapStateToProps = state => ({
-  favoriteFilms: state.favoriteFilms,
+  favoriteFilms: state.toggleFavorite.favoriteFilms,
 });
 
 export default connect(mapStateToProps)(Search);

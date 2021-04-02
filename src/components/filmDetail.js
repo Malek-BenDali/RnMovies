@@ -109,7 +109,7 @@ const filmDetail = ({favoriteFilms, LikeFilm}) => {
 };
 
 const mapStateToProps = state => ({
-  favoriteFilms: state.favoriteFilms,
+  favoriteFilms: state.toggleFavorite.favoriteFilms,
 });
 
 export default connect(mapStateToProps, {LikeFilm})(filmDetail);
