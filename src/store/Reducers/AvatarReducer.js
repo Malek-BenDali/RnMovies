@@ -8,7 +8,7 @@ const AvatarReducer = (state = initialState, action) => {
   let nextState;
   switch (action.type) {
     case actionTypes.AVATAR_IMAGE:
-      nextState = '../' + action.payload;
+      nextState = {avatarImage: action.payload};
       return nextState || state;
     default:
       return state;
